@@ -1,127 +1,70 @@
+
 # Starship Anomaly Explainer 
 
-An end-to-end NLP pipeline that reads public incident narratives about SpaceX Starship (news, reports, community summaries) and outputs **structured “What happened?” cards**:
+An end-to-end NLP system that converts unstructured public incident narratives about **SpaceX Starship**
+(news articles, official statements, community reports) into **structured, evidence-grounded
+“What happened?” cards**.
 
-- **Subsystem(s)** (multi-label)
-- **Failure mode(s)** (multi-label)
-- **Cause hypothesis** (optional multi-label)
-- **Impact** (multi-label)
-- **Evidence snippets** (grounded spans, no hallucination)
-- **Confidence** per field
-
-This repo is designed to be **portfolio-grade**: baselines + transformer, proper evaluation splits, and a simple Streamlit demo.
+The goal is to study how reliably NLP can extract **engineering-relevant failure information**
+from noisy, evolving, real-world text.
 
 ---
 
-## Quickstart
+## What the system produces
 
-### 1) Setup
+For each incident narrative, the pipeline outputs a structured card containing:
 
-```bash
-python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-```
+- **Subsystem(s)** — multi-label (e.g. raptor_engine, avionics, heat_shield)
+- **Failure mode(s)** — multi-label (e.g. loss_of_control, fire, debris, fts_triggered)
+- **Impact** — vehicle loss, pad damage, delay, minor anomaly, etc.
+- **Cause hypothesis** — optional, explicitly labeled as *hypothesis*
+- **Evidence snippets** — supporting sentences extracted from the text (no hallucination)
+- **Confidence score** per field
 
-### 2) Data (sample included)
-
-A small sample is committed at:
-
-- `data/processed/incidents.jsonl`
-
-You can add more records (same schema) and keep large raw text in `data/raw/` (ignored by git).
-
-### 3) Baselines
-
-**Keyword baseline**
-```bash
-python -m src.baselines.keyword_baseline --data data/processed/incidents.jsonl --out outputs/keyword_preds.jsonl
-```
-
-**TF–IDF + One-vs-Rest Logistic Regression**
-```bash
-python -m src.baselines.tfidf_baseline --data data/processed/incidents.jsonl --out outputs/tfidf_preds.jsonl
-```
-
-### 4) Transformer (DeBERTa, multi-label)
-
-```bash
-python -m src.models.train_multilabel_deberta \
-  --data data/processed/incidents.jsonl \
-  --task subsystem failure_mode impact cause \
-  --model microsoft/deberta-v3-base \
-  --output_dir outputs/deberta_multilabel
-```
-
-### 5) Evaluate
-
-```bash
-python -m src.eval.evaluate --gold data/processed/incidents.jsonl --pred outputs/tfidf_preds.jsonl
-```
-
-### 6) Demo UI (Streamlit)
-
-```bash
-streamlit run src/demo/app.py
-```
+All predictions are tied to **verbatim text spans** from the input.
 
 ---
 
-## Data format
+## Demo screenshots
 
-Each line in `incidents.jsonl` is one JSON record:
+### Ascent anomaly (engine shutdown + FTS)
+![Ascent anomaly](docs/demo_ascent.png)
 
-```json
-{
-  "incident_id": "ift3-2024-03-14",
-  "date": "2024-03-14",
-  "title": "Starship IFT-3 anomaly during reentry",
-  "source_url": "https://example.com",
-  "source_type": "news|official|community",
-  "text": "...",
-  "labels": {
-    "subsystem": ["heat_shield", "avionics"],
-    "failure_mode": ["loss_of_control"],
-    "impact": ["vehicle_loss", "delay"],
-    "cause": ["unknown"]
-  }
-}
-```
+### Ground systems anomaly (pad fire and debris)
+![Pad anomaly](docs/demo_pad.png)
 
-Label space is defined in `data/schema.yaml`.
+### Reentry anomaly (thermal protection failure)
+![Reentry anomaly](docs/demo_reentry.png)
 
 ---
 
-## Project layout
+## Why this project matters
 
-```
-starship-anomaly-explainer/
-├─ README.md
-├─ requirements.txt
-├─ data/
-│  ├─ schema.yaml
-│  ├─ raw/                 # not committed
-│  └─ processed/
-│     └─ incidents.jsonl   # small sample committed
-├─ src/
-│  ├─ ingest/              # scrape + clean
-│  ├─ labeling/            # optional CLI label helper
-│  ├─ baselines/           # keyword + tfidf baselines
-│  ├─ models/              # DeBERTa multi-label fine-tune + predict
-│  ├─ eval/                # metrics + plots
-│  └─ demo/                # Streamlit “What happened?” cards
-├─ outputs/                # predictions + metrics + artifacts
-└─ docs/                   # methods + paper outline
-```
+Spaceflight incidents generate large volumes of unstructured text but little standardized data.
+Analysts must manually translate scattered reports into structured failure timelines.
+
+This project demonstrates how NLP can:
+- Perform **multi-label incident classification**
+- Extract **evidence-grounded explanations**
+- Handle **speculative and evolving narratives**
+- Support **engineering analysis**, not text generation
 
 ---
 
-## Notes on grounding (“evidence snippets”)
+## System overview
 
-This project does **not** generate free-form explanations. It selects **supporting sentences** from the input text (heuristics or model-based scoring) to justify each predicted label. The demo highlights those spans.
+Pipeline stages:
+
+1. **Input**: raw incident narrative
+2. **Sentence segmentation**
+3. **Baseline inference**
+   - Keyword-based matching (fast, interpretable)
+   - TF–IDF + One-vs-Rest Logistic Regression
+4. **(Optional)** Transformer fine-tuning (DeBERTa, multi-label)
+5. **Evidence selection** (sentence-level grounding)
+6. **Structured output card**
 
 ---
 
-## License
+## Repository structure
 
-MIT (see `LICENSE`).
