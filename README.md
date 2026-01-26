@@ -1,4 +1,4 @@
-# Starship Anomaly Explainer 🚀🧠
+# Starship Anomaly Explainer 
 
 An end-to-end NLP pipeline that reads public incident narratives about SpaceX Starship (news, reports, community summaries) and outputs **structured “What happened?” cards**:
 
