@@ -66,5 +66,14 @@ Pipeline stages:
 
 ---
 
-## Repository structure
+## Results (qualitative)
+
+The keyword baseline correctly identifies major subsystems and failure modes
+in clear incident narratives (e.g. engine shutdown, FTS activation, pad fire).
+Errors primarily occur in speculative or ambiguous reporting, where multiple
+failure mechanisms are discussed without confirmation.
+
+Transformer models are included for future scaling once a larger labeled
+dataset is available.
+
 
