@@ -1,0 +1,11 @@
+incident_id,text,subsystem_label,incident_type_label
+ift1-2023-04-20,"During the first integrated flight test, multiple engines failed to ignite and the vehicle climbed with reduced thrust. Telemetry later indicated loss of attitude control. The flight termination system was activated, and debris impacted the launch pad area causing damage to nearby ground equipment.",raptor_engine,engine_shutdown
+ift2-2023-11-18,"The booster completed the ascent phase and initiated a hot-staging separation. Shortly after separation, the booster experienced an anomaly with a rapid fire event in the engine section and was lost. The ship continued briefly, then lost telemetry and broke apart before reaching its planned trajectory.",stage_separation,fire
+ift3-2024-03-14,"The ship reached space and completed a partial mission profile. During reentry, the vehicle began to tumble and lost control authority. Communications dropped and the vehicle broke up. Engineers suspected thermal protection issues and off-nominal attitude during peak heating.",heat_shield,loss_of_control
+todo-001,"TODO: add incident text from data/processed/incidents.jsonl or another labeled source.",TODO,TODO
+todo-002,"TODO: add incident text from data/processed/incidents.jsonl or another labeled source.",TODO,TODO
+todo-003,"TODO: add incident text from data/processed/incidents.jsonl or another labeled source.",TODO,TODO
+todo-004,"TODO: add incident text from data/processed/incidents.jsonl or another labeled source.",TODO,TODO
+todo-005,"TODO: add incident text from data/processed/incidents.jsonl or another labeled source.",TODO,TODO
+todo-006,"TODO: add incident text from data/processed/incidents.jsonl or another labeled source.",TODO,TODO
+todo-007,"TODO: add incident text from data/processed/incidents.jsonl or another labeled source.",TODO,TODO

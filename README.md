@@ -68,10 +68,26 @@ Pipeline stages:
 
 ## Results
 
+### Quantitative results (keyword baseline)
+
+| Task | Metric | Value | Source |
+| --- | --- | --- | --- |
+| Subsystem identification | Micro-precision / micro-recall / micro-F1 | 0.714 / 0.769 / 0.741 | outputs/metrics.json |
+| Incident type (failure_mode) | Micro-precision / micro-recall / micro-F1 | 1.000 / 0.667 / 0.800 | outputs/metrics.json |
+| Evidence grounding | % incidents with ≥1 evidence snippet | 100% (3/3) | outputs/keyword_preds.jsonl |
+
 - Labeled sample size: 3 incidents (data/processed/incidents.jsonl)
 - Baseline: Keyword matching (rule-based) baseline
 - Metrics: precision, recall, F1 (micro-avg per field) — subsystem 0.714/0.769/0.741; failure_mode 1.000/0.667/0.800; impact 1.000/0.143/0.250; cause 1.000/0.500/0.667
 - Notes: Evaluated keyword baseline predictions (outputs/keyword_preds.jsonl) against gold labels (data/processed/incidents.jsonl) with `python -m src.eval.evaluate --gold data/processed/incidents.jsonl --pred outputs/keyword_preds.jsonl --out outputs/metrics.json`; reproduce by running `python -m src.baselines.keyword_baseline --data data/processed/incidents.jsonl --out outputs/keyword_preds.jsonl` then the evaluation command.
+
+### Repro evaluation
+
+Run the lightweight keyword baseline evaluation on the labeled CSV (data/labels.csv) and write JSON outputs:
+
+```bash
+python scripts/eval_keyword_baseline.py --labels data/labels.csv --out outputs/eval_results.json
+```
 
 ### Qualitative notes
 
@@ -82,4 +98,3 @@ failure mechanisms are discussed without confirmation.
 
 Transformer models are included for future scaling once a larger labeled
 dataset is available.
-
