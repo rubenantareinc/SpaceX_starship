@@ -86,8 +86,15 @@ Pipeline stages:
 Run the lightweight keyword baseline evaluation on the labeled CSV (data/labels.csv) and write JSON outputs:
 
 ```bash
-python scripts/eval_keyword_baseline.py --labels data/labels.csv --out outputs/eval_results.json
+python scripts/eval_keyword_baseline.py --labels data/labels.csv --out outputs/eval_results.json --summary-out outputs/eval_summary.txt
 ```
+
+### Incident schema
+
+The label taxonomy is captured in both YAML and JSON for convenience:
+
+- `data/schema.yaml`
+- `data/schema.json`
 
 ### Qualitative notes
 

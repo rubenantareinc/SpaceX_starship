@@ -1,0 +1,57 @@
+{
+  "labels": {
+    "cause": [
+      "propellant_leak",
+      "engine_rich_shutdown",
+      "control_authority_loss",
+      "software_fault",
+      "debris_strike",
+      "thermal_protection_failure",
+      "unknown"
+    ],
+    "failure_mode": [
+      "engine_shutdown",
+      "explosion",
+      "leak",
+      "fire",
+      "loss_of_control",
+      "structural_failure",
+      "fts_triggered",
+      "pad_damage",
+      "comms_loss",
+      "debris",
+      "reentry_breakup"
+    ],
+    "impact": [
+      "vehicle_loss",
+      "pad_damage",
+      "delay",
+      "minor_anomaly",
+      "mission_success_with_anomaly"
+    ],
+    "subsystem": [
+      "raptor_engine",
+      "propulsion",
+      "avionics",
+      "gnc",
+      "stage_separation",
+      "structures",
+      "heat_shield",
+      "flaps",
+      "tanks",
+      "ground_systems",
+      "launch_pad",
+      "range_safety",
+      "communications",
+      "software"
+    ]
+  },
+  "metadata": {
+    "source_type": [
+      "official",
+      "news",
+      "community"
+    ]
+  },
+  "version": 1
+}
