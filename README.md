@@ -66,7 +66,14 @@ Pipeline stages:
 
 ---
 
-## Results (qualitative)
+## Results
+
+- Labeled sample size: 3 incidents (data/processed/incidents.jsonl)
+- Baseline: Keyword matching (rule-based) baseline
+- Metrics: precision, recall, F1 (micro-avg per field) — subsystem 0.714/0.769/0.741; failure_mode 1.000/0.667/0.800; impact 1.000/0.143/0.250; cause 1.000/0.500/0.667
+- Notes: Evaluated keyword baseline predictions (outputs/keyword_preds.jsonl) against gold labels (data/processed/incidents.jsonl) with `python -m src.eval.evaluate --gold data/processed/incidents.jsonl --pred outputs/keyword_preds.jsonl --out outputs/metrics.json`; reproduce by running `python -m src.baselines.keyword_baseline --data data/processed/incidents.jsonl --out outputs/keyword_preds.jsonl` then the evaluation command.
+
+### Qualitative notes
 
 The keyword baseline correctly identifies major subsystems and failure modes
 in clear incident narratives (e.g. engine shutdown, FTS activation, pad fire).
@@ -75,5 +82,4 @@ failure mechanisms are discussed without confirmation.
 
 Transformer models are included for future scaling once a larger labeled
 dataset is available.
-
 
