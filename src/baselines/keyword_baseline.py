@@ -13,12 +13,11 @@ This is intentionally transparent for error analysis.
 
 import argparse
 import json
-import re
 from pathlib import Path
 from typing import Dict, List, Tuple
 
 import yaml
-from sklearn.metrics import f1_score, precision_score, recall_score
+from src.utils import split_sentences
 
 
 KEYWORDS = {
@@ -70,14 +69,10 @@ KEYWORDS = {
 }
 
 
-def split_sentences(text: str) -> List[str]:
-    # crude sentence splitter
-    sents = re.split(r"(?<=[.!?])\s+", text.strip())
-    return [s.strip() for s in sents if s.strip()]
-
-
-def score_labels(text: str, field_map: Dict[str, List[str]]) -> Tuple[List[str], Dict[str, float], Dict[str, List[str]]]:
-    """Return labels, confidences, and evidence sentences."""
+def score_labels(
+    text: str, field_map: Dict[str, List[str]]
+) -> Tuple[List[str], Dict[str, float], Dict[str, List[int]]]:
+    """Return labels, confidences, and evidence sentence indices."""
     text_l = text.lower()
     sents = split_sentences(text)
     picked = []
@@ -91,9 +86,9 @@ def score_labels(text: str, field_map: Dict[str, List[str]]) -> Tuple[List[str],
             if kw.lower() in text_l:
                 hits += 1
                 # evidence: sentences containing keyword
-                for s in sents:
+                for idx, s in enumerate(sents):
                     if kw.lower() in s.lower():
-                        evid.append(s)
+                        evid.append(idx)
         if hits > 0:
             picked.append(label)
             conf[label] = min(0.95, 0.3 + 0.2 * hits)
@@ -101,11 +96,20 @@ def score_labels(text: str, field_map: Dict[str, List[str]]) -> Tuple[List[str],
     return picked, conf, evidence
 
 
+def load_jsonl(path: Path) -> List[dict]:
+    return [json.loads(l) for l in path.read_text(encoding="utf-8").splitlines() if l.strip()]
+
+
+def load_split(path: Path) -> dict:
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", required=True)
     ap.add_argument("--schema", default="data/schema.yaml")
     ap.add_argument("--out", required=True)
+    ap.add_argument("--split", default=None, help="Optional split.json to filter to test IDs")
     args = ap.parse_args()
 
     schema = yaml.safe_load(Path(args.schema).read_text(encoding="utf-8"))
@@ -114,8 +118,11 @@ def main():
     out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
-    with Path(args.data).open("r", encoding="utf-8") as f:
-        records = [json.loads(l) for l in f if l.strip()]
+    records = load_jsonl(Path(args.data))
+    if args.split:
+        split = load_split(Path(args.split))
+        test_ids = set(split.get("test", []))
+        records = [r for r in records if r.get("incident_id") in test_ids]
 
     with out_path.open("w", encoding="utf-8") as f:
         for rec in records:

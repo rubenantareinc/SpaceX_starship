@@ -1,0 +1,36 @@
+{
+  "overall": {
+    "precision@1": 0.0,
+    "precision@3": 0.0,
+    "recall@1": 0.0,
+    "recall@3": 0.0,
+    "coverage": 0.0
+  },
+  "per_field": {
+    "subsystem": {
+      "precision@1": 0.0,
+      "precision@3": 0.0,
+      "recall@1": 0.0,
+      "recall@3": 0.0
+    },
+    "failure_mode": {
+      "precision@1": 0.0,
+      "precision@3": 0.0,
+      "recall@1": 0.0,
+      "recall@3": 0.0
+    },
+    "impact": {
+      "precision@1": 0.0,
+      "precision@3": 0.0,
+      "recall@1": 0.0,
+      "recall@3": 0.0
+    },
+    "cause": {
+      "precision@1": 0.0,
+      "precision@3": 0.0,
+      "recall@1": 0.0,
+      "recall@3": 0.0
+    }
+  },
+  "n_incidents": 0
+}

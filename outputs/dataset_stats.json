@@ -1,0 +1,7 @@
+{
+  "n_total": 40,
+  "n_with_text": 3,
+  "n_labeled": 3,
+  "avg_length_tokens": 43.0,
+  "avg_label_cardinality": 12.0
+}

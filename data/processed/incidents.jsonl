@@ -1,3 +1,40 @@
-{"incident_id": "ift1-2023-04-20", "date": "2023-04-20", "title": "Starship Integrated Flight Test 1 pad and vehicle failure", "source_url": "https://example.com/ift1-summary", "source_type": "community", "text": "During the first integrated flight test, multiple engines failed to ignite and the vehicle climbed with reduced thrust. Telemetry later indicated loss of attitude control. The flight termination system was activated, and debris impacted the launch pad area causing damage to nearby ground equipment.", "labels": {"subsystem": ["raptor_engine", "gnc", "range_safety", "launch_pad", "ground_systems"], "failure_mode": ["engine_shutdown", "loss_of_control", "fts_triggered", "pad_damage", "debris"], "impact": ["vehicle_loss", "pad_damage", "delay"], "cause": ["unknown"]}}
-{"incident_id": "ift2-2023-11-18", "date": "2023-11-18", "title": "Starship IFT-2 booster separation and upper-stage anomaly", "source_url": "https://example.com/ift2-summary", "source_type": "news", "text": "The booster completed the ascent phase and initiated a hot-staging separation. Shortly after separation, the booster experienced an anomaly with a rapid fire event in the engine section and was lost. The ship continued briefly, then lost telemetry and broke apart before reaching its planned trajectory.", "labels": {"subsystem": ["stage_separation", "raptor_engine", "propulsion", "communications"], "failure_mode": ["fire", "explosion", "comms_loss", "structural_failure"], "impact": ["vehicle_loss", "delay"], "cause": ["unknown"]}}
-{"incident_id": "ift3-2024-03-14", "date": "2024-03-14", "title": "Starship IFT-3 reentry control loss", "source_url": "https://example.com/ift3-summary", "source_type": "community", "text": "The ship reached space and completed a partial mission profile. During reentry, the vehicle began to tumble and lost control authority. Communications dropped and the vehicle broke up. Engineers suspected thermal protection issues and off-nominal attitude during peak heating.", "labels": {"subsystem": ["heat_shield", "gnc", "communications", "software"], "failure_mode": ["loss_of_control", "comms_loss", "reentry_breakup"], "impact": ["vehicle_loss", "delay"], "cause": ["thermal_protection_failure", "control_authority_loss"]}}
+{"incident_id": "ift1-2023-04-20", "incident_name": "IFT-1 demo narrative (synthetic)", "text": "During the first integrated flight test, multiple engines failed to ignite and the vehicle climbed with reduced thrust. Telemetry later indicated loss of attitude control. The flight termination system was activated, and debris impacted the launch pad area causing damage to nearby ground equipment.", "sources": [], "labels": {"subsystem": ["raptor_engine", "gnc", "range_safety", "launch_pad", "ground_systems"], "failure_mode": ["engine_shutdown", "loss_of_control", "fts_triggered", "pad_damage", "debris"], "impact": ["vehicle_loss", "pad_damage", "delay"], "cause": ["unknown"]}, "date": "2023-04-20"}
+{"incident_id": "ift2-2023-11-18", "incident_name": "IFT-2 demo narrative (synthetic)", "text": "The booster completed the ascent phase and initiated a hot-staging separation. Shortly after separation, the booster experienced an anomaly with a rapid fire event in the engine section and was lost. The ship continued briefly, then lost telemetry and broke apart before reaching its planned trajectory.", "sources": [], "labels": {"subsystem": ["stage_separation", "raptor_engine", "propulsion", "communications"], "failure_mode": ["fire", "explosion", "comms_loss", "structural_failure"], "impact": ["vehicle_loss", "delay"], "cause": ["unknown"]}, "date": "2023-11-18"}
+{"incident_id": "ift3-2024-03-14", "incident_name": "IFT-3 demo narrative (synthetic)", "text": "The ship reached space and completed a partial mission profile. During reentry, the vehicle began to tumble and lost control authority. Communications dropped and the vehicle broke up. Engineers suspected thermal protection issues and off-nominal attitude during peak heating.", "sources": [], "labels": {"subsystem": ["heat_shield", "gnc", "communications", "software"], "failure_mode": ["loss_of_control", "comms_loss", "reentry_breakup"], "impact": ["vehicle_loss", "delay"], "cause": ["thermal_protection_failure", "control_authority_loss"]}, "date": "2024-03-14"}
+{"incident_id": "tbd-001", "incident_name": "TBD incident 01", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-002", "incident_name": "TBD incident 02", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-003", "incident_name": "TBD incident 03", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-004", "incident_name": "TBD incident 04", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-005", "incident_name": "TBD incident 05", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-006", "incident_name": "TBD incident 06", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-007", "incident_name": "TBD incident 07", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-008", "incident_name": "TBD incident 08", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-009", "incident_name": "TBD incident 09", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-010", "incident_name": "TBD incident 10", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-011", "incident_name": "TBD incident 11", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-012", "incident_name": "TBD incident 12", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-013", "incident_name": "TBD incident 13", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-014", "incident_name": "TBD incident 14", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-015", "incident_name": "TBD incident 15", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-016", "incident_name": "TBD incident 16", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-017", "incident_name": "TBD incident 17", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-018", "incident_name": "TBD incident 18", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-019", "incident_name": "TBD incident 19", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-020", "incident_name": "TBD incident 20", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-021", "incident_name": "TBD incident 21", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-022", "incident_name": "TBD incident 22", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-023", "incident_name": "TBD incident 23", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-024", "incident_name": "TBD incident 24", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-025", "incident_name": "TBD incident 25", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-026", "incident_name": "TBD incident 26", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-027", "incident_name": "TBD incident 27", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-028", "incident_name": "TBD incident 28", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-029", "incident_name": "TBD incident 29", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-030", "incident_name": "TBD incident 30", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-031", "incident_name": "TBD incident 31", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-032", "incident_name": "TBD incident 32", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-033", "incident_name": "TBD incident 33", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-034", "incident_name": "TBD incident 34", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-035", "incident_name": "TBD incident 35", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-036", "incident_name": "TBD incident 36", "text": "", "sources": [], "missing_text": true}
+{"incident_id": "tbd-037", "incident_name": "TBD incident 37", "text": "", "sources": [], "missing_text": true}

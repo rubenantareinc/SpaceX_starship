@@ -1,0 +1,1 @@
+During the first integrated flight test, multiple engines failed to ignite and the vehicle climbed with reduced thrust. Telemetry later indicated loss of attitude control. The flight termination system was activated, and debris impacted the launch pad area causing damage to nearby ground equipment.
