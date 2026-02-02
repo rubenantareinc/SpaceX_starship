@@ -1,0 +1,13 @@
+{
+  "strategy": "time",
+  "seed": 13,
+  "test_size": 0.2,
+  "n_labeled": 3,
+  "train": [
+    "ift1-2023-04-20",
+    "ift2-2023-11-18"
+  ],
+  "test": [
+    "ift3-2024-03-14"
+  ]
+}

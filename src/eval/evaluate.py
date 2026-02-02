@@ -1,21 +1,17 @@
 """
 evaluate.py
 -----------
-Evaluate predictions vs gold labels.
-
-Gold file: incidents.jsonl with labels.* fields
-Pred file: predictions JSONL with pred.* fields (from baselines or transformer)
+Evaluate predictions vs gold labels (multi-label).
 
 Outputs:
 - metrics.json
-- optional confusion matrix per field (binary) is non-trivial for multi-label;
-  we export per-label precision/recall/f1 instead.
+- metrics.md
 """
 
 import argparse
 import json
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 import numpy as np
 import yaml
@@ -36,12 +32,53 @@ def binarize(label_list: List[str], labels: List[List[str]]):
     return Y
 
 
+def filter_ids(records: Dict[str, dict], ids: Optional[List[str]]) -> Dict[str, dict]:
+    if not ids:
+        return records
+    return {k: v for k, v in records.items() if k in ids}
+
+
+def load_split(path: Optional[str]) -> Optional[dict]:
+    if not path:
+        return None
+    return json.loads(Path(path).read_text(encoding="utf-8"))
+
+
+def metrics_to_markdown(report: dict) -> str:
+    lines = ["# Classification Metrics", ""]
+    lines.append(f"Total evaluated incidents: {report.get('n', 0)}")
+    lines.append("")
+
+    for field, metrics in report.get("fields", {}).items():
+        lines.append(f"## {field}")
+        lines.append("")
+        lines.append("| Metric | Value |")
+        lines.append("| --- | --- |")
+        lines.append(f"| Micro precision | {metrics['micro_precision']:.3f} |")
+        lines.append(f"| Micro recall | {metrics['micro_recall']:.3f} |")
+        lines.append(f"| Micro F1 | {metrics['micro_f1']:.3f} |")
+        lines.append(f"| Macro F1 | {metrics['macro_f1']:.3f} |")
+        lines.append("")
+        lines.append("| Label | Precision | Recall | F1 | Support |")
+        lines.append("| --- | --- | --- | --- | --- |")
+        for label, label_metrics in metrics["per_label"].items():
+            lines.append(
+                f"| {label} | {label_metrics['precision']:.3f} | {label_metrics['recall']:.3f} | "
+                f"{label_metrics['f1']:.3f} | {label_metrics['support']} |"
+            )
+        lines.append("")
+
+    return "\n".join(lines) + "\n"
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--gold", required=True)
     ap.add_argument("--pred", required=True)
     ap.add_argument("--schema", default="data/schema.yaml")
+    ap.add_argument("--split", default=None, help="Optional split.json to evaluate on test IDs")
     ap.add_argument("--out", default="outputs/metrics.json")
+    ap.add_argument("--md-out", default="outputs/metrics.md")
     args = ap.parse_args()
 
     schema = yaml.safe_load(Path(args.schema).read_text(encoding="utf-8"))
@@ -49,6 +86,12 @@ def main():
 
     gold = {r["incident_id"]: r for r in load_jsonl(args.gold)}
     pred = {r["incident_id"]: r for r in load_jsonl(args.pred)}
+
+    split = load_split(args.split)
+    test_ids = split.get("test") if split else None
+
+    gold = filter_ids(gold, test_ids)
+    pred = filter_ids(pred, test_ids)
 
     fields = ["subsystem", "failure_mode", "impact", "cause"]
     report = {"n": len(gold), "fields": {}}
@@ -94,7 +137,13 @@ def main():
     out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
+
+    md_path = Path(args.md_out)
+    md_path.parent.mkdir(parents=True, exist_ok=True)
+    md_path.write_text(metrics_to_markdown(report), encoding="utf-8")
+
     print(f"Saved metrics -> {out_path}")
+    print(f"Saved metrics markdown -> {md_path}")
 
 
 if __name__ == "__main__":

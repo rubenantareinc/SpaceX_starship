@@ -1,0 +1,36 @@
+{
+  "subsystem": {
+    "raptor_engine": 2,
+    "gnc": 2,
+    "range_safety": 1,
+    "launch_pad": 1,
+    "ground_systems": 1,
+    "stage_separation": 1,
+    "propulsion": 1,
+    "communications": 2,
+    "heat_shield": 1,
+    "software": 1
+  },
+  "failure_mode": {
+    "engine_shutdown": 1,
+    "loss_of_control": 2,
+    "fts_triggered": 1,
+    "pad_damage": 1,
+    "debris": 1,
+    "fire": 1,
+    "explosion": 1,
+    "comms_loss": 2,
+    "structural_failure": 1,
+    "reentry_breakup": 1
+  },
+  "impact": {
+    "vehicle_loss": 3,
+    "pad_damage": 1,
+    "delay": 3
+  },
+  "cause": {
+    "unknown": 2,
+    "thermal_protection_failure": 1,
+    "control_authority_loss": 1
+  }
+}

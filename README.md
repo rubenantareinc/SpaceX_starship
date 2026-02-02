@@ -66,28 +66,75 @@ Pipeline stages:
 
 ---
 
-## Results
+## Dataset
 
-### Quantitative results (keyword baseline)
+The repository now includes a **40-row incident roster** in `data/sources.csv` plus matching
+raw text files under `data/raw_text/`. Only three incidents currently include text and labels;
+the remaining entries are templates to be filled with real sources and narratives.
 
-| Task | Metric | Value | Source |
-| --- | --- | --- | --- |
-| Subsystem identification | Micro-precision / micro-recall / micro-F1 | 0.714 / 0.769 / 0.741 | outputs/metrics.json |
-| Incident type (failure_mode) | Micro-precision / micro-recall / micro-F1 | 1.000 / 0.667 / 0.800 | outputs/metrics.json |
-| Evidence grounding | % incidents with ≥1 evidence snippet | 100% (3/3) | outputs/keyword_preds.jsonl |
+Current dataset statistics (from `outputs/dataset_stats.json`):
 
-- Labeled sample size: 3 incidents (data/processed/incidents.jsonl)
-- Baseline: Keyword matching (rule-based) baseline
-- Metrics: precision, recall, F1 (micro-avg per field) — subsystem 0.714/0.769/0.741; failure_mode 1.000/0.667/0.800; impact 1.000/0.143/0.250; cause 1.000/0.500/0.667
-- Notes: Evaluated keyword baseline predictions (outputs/keyword_preds.jsonl) against gold labels (data/processed/incidents.jsonl) with `python -m src.eval.evaluate --gold data/processed/incidents.jsonl --pred outputs/keyword_preds.jsonl --out outputs/metrics.json`; reproduce by running `python -m src.baselines.keyword_baseline --data data/processed/incidents.jsonl --out outputs/keyword_preds.jsonl` then the evaluation command.
+| Metric | Value |
+| --- | --- |
+| Total incidents (roster size) | 40 |
+| Incidents with narratives | 3 |
+| Incidents with labels | 3 |
+| Avg. length (tokens) | 43.0 |
+| Avg. label cardinality | 12.0 |
 
-### Repro evaluation
-
-Run the lightweight keyword baseline evaluation on the labeled CSV (data/labels.csv) and write JSON outputs:
+## Reproducibility (3 commands)
 
 ```bash
-python scripts/eval_keyword_baseline.py --labels data/labels.csv --out outputs/eval_results.json --summary-out outputs/eval_summary.txt
+python -m src.ingest.build_incidents --raw-dir data/raw_text --sources data/sources.csv --out data/processed/incidents.jsonl --labels-from data/processed/incidents.jsonl
+python -m src.eval.split --data data/processed/incidents.jsonl
+python scripts/smoke_end_to_end.py
 ```
+
+`scripts/smoke_end_to_end.py` rebuilds the processed dataset, generates predictions, and writes
+all metrics to `outputs/`.
+
+## Quantitative evaluation
+
+All metrics below are computed on the deterministic **test split** (currently 1 incident due to
+3 labeled narratives total). See `outputs/split.json` for the split IDs.
+
+### Keyword baseline (test split)
+
+| Field | Micro P | Micro R | Micro F1 | Macro F1 |
+| --- | --- | --- | --- | --- |
+| subsystem | 0.750 | 0.750 | 0.750 | 0.214 |
+| failure_mode | 1.000 | 0.667 | 0.800 | 0.182 |
+| impact | 0.000 | 0.000 | 0.000 | 0.000 |
+| cause | 1.000 | 1.000 | 1.000 | 0.286 |
+
+Source: `outputs/keyword_metrics.json` / `outputs/keyword_metrics.md`.
+
+### TF–IDF + Logistic Regression baseline (test split)
+
+| Field | Micro P | Micro R | Micro F1 | Macro F1 |
+| --- | --- | --- | --- | --- |
+| subsystem | 0.200 | 0.250 | 0.222 | 0.071 |
+| failure_mode | 0.200 | 0.333 | 0.250 | 0.091 |
+| impact | 0.667 | 1.000 | 0.800 | 0.400 |
+| cause | 0.000 | 0.000 | 0.000 | 0.000 |
+
+Source: `outputs/tfidf_metrics.json` / `outputs/tfidf_metrics.md`.
+
+## Evidence grounding evaluation
+
+Evidence is evaluated using sentence-level Precision@k and Recall@k (k=1,3), with coverage
+defined as the percent of incidents that return at least one evidence sentence.
+
+Current evidence metrics are **0.000** because `evidence_gold` is not yet populated in the
+labeled incidents (see `docs/LABEL_GUIDE.md` for the annotation workflow). Source:
+`outputs/evidence_metrics.json` / `outputs/evidence_metrics.md`.
+
+## Limitations and next steps
+
+- The roster includes 40 template incidents, but only 3 have narratives and labels today.
+  Populate `data/raw_text/` and `data/sources.csv` with real incidents to scale evaluation.
+- Evidence-grounding metrics will remain at 0 until `evidence_gold` is filled via the labeling CLI.
+- Add inter-annotator agreement and larger train/test splits as the labeled dataset grows.
 
 ### Incident schema
 
@@ -95,13 +142,3 @@ The label taxonomy is captured in both YAML and JSON for convenience:
 
 - `data/schema.yaml`
 - `data/schema.json`
-
-### Qualitative notes
-
-The keyword baseline correctly identifies major subsystems and failure modes
-in clear incident narratives (e.g. engine shutdown, FTS activation, pad fire).
-Errors primarily occur in speculative or ambiguous reporting, where multiple
-failure mechanisms are discussed without confirmation.
-
-Transformer models are included for future scaling once a larger labeled
-dataset is available.
