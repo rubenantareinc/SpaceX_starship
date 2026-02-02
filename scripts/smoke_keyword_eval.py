@@ -17,9 +17,9 @@ def main() -> None:
         },
         {
             "incident_id": "smoke-002",
-            "text": "TODO placeholder.",
-            "subsystem_label": "TODO",
-            "incident_type_label": "TODO",
+            "text": "This row intentionally has missing labels to validate skip logic.",
+            "subsystem_label": "",
+            "incident_type_label": "",
         },
     ]
 

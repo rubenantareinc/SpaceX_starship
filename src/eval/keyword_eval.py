@@ -5,7 +5,7 @@ from typing import Iterable
 
 from src.baselines.keyword_baseline import KEYWORDS, score_labels
 
-SKIP_LABELS = {"", "TODO", "TBD"}
+SKIP_LABELS = {"", "TBD"}
 
 
 def normalize_label(label: str) -> str:

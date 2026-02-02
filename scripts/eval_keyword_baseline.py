@@ -43,7 +43,7 @@ def main() -> None:
         f"Incident type accuracy: {results['incident_type']['correct']}/{incident_total} "
         f"({incident_accuracy:.3f})"
     )
-    print(f"Skipped rows (TODO/blank labels): {results['skipped']}")
+    print(f"Skipped rows (missing labels): {results['skipped']}")
 
     output = {
         "subsystem": {
@@ -76,7 +76,7 @@ def main() -> None:
     summary_lines = [
         f"Subsystem accuracy: {results['subsystem']['correct']}/{subsystem_total} ({subsystem_accuracy:.3f})",
         f"Incident type accuracy: {results['incident_type']['correct']}/{incident_total} ({incident_accuracy:.3f})",
-        f"Skipped rows (TODO/blank labels): {results['skipped']}",
+        f"Skipped rows (missing labels): {results['skipped']}",
     ]
     summary_path.write_text("\n".join(summary_lines) + "\n", encoding="utf-8")
     print(f"Wrote summary to {summary_path}")
